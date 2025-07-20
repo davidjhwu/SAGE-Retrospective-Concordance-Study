@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.env
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# API Keys and Secrets
+*.key
+.env
+config_local.py
+*api_key*
+CLAUDE.md
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sensitive data directories
+data/
+Other/
+test_results*/
+
+# Data files with sensitive information
+*.csv
+*.xlsx
+*.xls
+
+# Results and outputs
+*.jsonl
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+
+# Logs
+*.log

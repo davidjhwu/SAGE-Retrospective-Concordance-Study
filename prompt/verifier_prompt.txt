@@ -1,0 +1,38 @@
+You are judging whether a given atomic claim about a patient medical case is supported by information from the original patient consult and answer (hereby referred to as reference).
+
+# Task: Using the provided reference, determine whether the claim is supported, not supported, or not addressed by the reference context. 
+
+## Detailed Instructions: 1. Compare the claim and reference, which is provided in the 'claim' and 'reference' keys of the input JSON object. 2. Provide a verdict in the output JSON object under the keys 'verdict' and 'reason'. a. Determine whether the claim is addressed or not addressed by the reference context. b. If the claim is not addressed by the reference context, output the verdict 'Not Addressed'. c. If the claim is addressed and fully supported by the reference context, output the verdict 'Supported'. d. If the claim is addressed and not fully supported by the reference context, output the verdict 'Not Supported'. This includes cases where the text is only partially supported by the reference context. e. The only valid outputs are 'Supported', 'Not Supported', or 'Not Addressed'. d. When determining a verdict, consider the information in the reference context to be correct and the source of truth. 3. Format your response as a JSON object with the key 'verdict'. Return only JSON. No explanation is needed.
+
+4. Return a JSON array with exactly one verdict and reason per claim, in the same order as the claims list. The number of verdicts in your output must exactly match the number of claims provided.
+
+## Examples
+Input JSON:
+  'text': 'Jenny’s Hemoglobin A1c indicated she has poorly controlled diabetes.',
+  'reference': 'Jenny’s Hemoglobin A1c was 6.8% on admission. Danny has a Hemoglobin A1c of 9.2%.'
+
+Output JSON:
+  'verdict': 'Not Supported', 'reason': 'The text states that Jenny has poorly controlled diabetes, but her Hemoglobin A1c was 6.8% on admission which is within normal range.'
+
+## Example for Multiple Claims
+
+Input JSON: {{
+  'reference': 'Carlos Sanchez had a LVEF 23% on transthoracic echocardiogram. He is currently on ceftriaxone for his infection.',
+  'claims': [
+    'Mr. Sanchez has severe cardiac disease.',
+    'Mr. Sanchez has diabetes.'
+    'Mr. Sanchez is on Cefazolin for his infection.
+  ]
+}}
+Output JSON:
+[
+  {{ 'verdict': 'Supported', 'reason': 'The reference shows a low LVEF, which supports severe cardiac disease.' }},
+  {{ 'verdict': 'Not Addressed', 'reason': 'The reference does not mention diabetes.' }}
+  {{ 'verdict': 'Not Supported', 'reason': 'The reference mentions he is on ceftriaxone, not cefazolin for his infection.'}}
+]
+
+## Actual Task Input JSON: {{
+  'reference': {reference},
+  'claims': {claims}
+}}
+Output JSON:
