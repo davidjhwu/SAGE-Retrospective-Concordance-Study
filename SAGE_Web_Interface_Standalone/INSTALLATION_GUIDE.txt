@@ -1,0 +1,83 @@
+SAGE Medical AI Concordance Review Tool - Installation Guide
+==========================================================
+
+QUICK START (Recommended)
+-------------------------
+
+Windows:
+1. Extract all files to a folder
+2. Double-click "start_sage.bat"
+3. Wait for installation to complete
+4. Open your web browser to: http://localhost:5001
+5. Enter password: djhwu
+
+Mac/Linux:
+1. Extract all files to a folder
+2. Double-click "start_sage.sh" (or run it from Terminal)
+3. Wait for installation to complete
+4. Open your web browser to: http://localhost:5001
+5. Enter password: djhwu
+
+MANUAL INSTALLATION (if automatic doesn't work)
+-----------------------------------------------
+
+Step 1: Install Python
+- Download Python from https://python.org
+- Install Python 3.7 or newer
+- On Windows: Make sure to check "Add Python to PATH"
+
+Step 2: Install Dependencies
+- Open Terminal (Mac/Linux) or Command Prompt (Windows)
+- Navigate to the SAGE folder
+- Run: pip install -r requirements.txt
+
+Step 3: Start the Application
+- In the same terminal, run: python app.py
+- Open browser to: http://localhost:5001
+- Enter password: djhwu
+
+TROUBLESHOOTING
+--------------
+
+Problem: "Python is not installed"
+Solution: Install Python from python.org, make sure to add to PATH
+
+Problem: "Port 5001 is already in use"
+Solution: 
+- Close other applications using that port
+- Or edit app.py and change port=5001 to port=5002
+
+Problem: Can't access http://localhost:5001
+Solution:
+- Make sure the server started (look for "Running on...")
+- Try http://127.0.0.1:5001 instead
+
+Problem: Permission denied on Mac/Linux
+Solution: 
+- Run: chmod +x start_sage.sh
+- Or run manually: python3 app.py
+
+SYSTEM REQUIREMENTS
+------------------
+- Python 3.7 or newer
+- 500MB free space (for data files)
+- Web browser (Chrome, Firefox, Safari, Edge)
+- No internet required after initial setup
+
+FILES INCLUDED
+--------------
+- app.py - Main web application
+- templates/ - Web interface files
+- data/ - Medical case analysis results
+- original_data/ - Source CSV data
+- requirements.txt - Python dependencies
+- start_sage.bat/sh - Automatic startup scripts
+
+SECURITY NOTES
+--------------
+- This tool runs ONLY on your local computer
+- No data is sent over the internet
+- Password: djhwu (can be changed in app.py)
+- All medical data stays on your machine
+
+For support, contact david j wu

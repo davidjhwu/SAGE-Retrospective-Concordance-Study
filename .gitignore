@@ -43,8 +43,15 @@ test_results*/
 *.xlsx
 *.xls
 
+# Generated images and plots
+*.png
+
 # Results and outputs
 *.jsonl
+
+# Web interface (development)
+web_interface/
+SAGE_Web_Interface_Standalone/
 
 # Jupyter Notebook
 .ipynb_checkpoints

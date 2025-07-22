@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Case {{ case_id }} Detail{% endblock %}
+
+{% block content %}
+<!-- Case Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header medical-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-file-medical me-2"></i>
+                        Case {{ case_id }} - Detailed Analysis
+                    </h3>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-light">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h4>Concordance Status</h4>
+                            {% if case_summary.Concordance == 1.0 %}
+                                <span class="badge bg-success fs-6 p-2">
+                                    <i class="fas fa-check-circle me-1"></i>CONCORDANT
+                                </span>
+                            {% else %}
+                                <span class="badge bg-danger fs-6 p-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>DISCORDANT
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row text-center">
+                            <div class="col-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body p-2">
+                                        <h5>{{ case_summary.Supported }}</h5>
+                                        <small>Supported Claims</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body p-2">
+                                        <h5>{{ case_summary['Not Supported'] }}</h5>
+                                        <small>Not Supported</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body p-2">
+                                        <h5>{{ case_summary['Not Addressed'] }}</h5>
+                                        <small>Not Addressed</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body p-2">
+                                        <h5>{{ case_summary.support_percentage }}</h5>
+                                        <small>Support Rate</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Two-Column Layout: Case Content and Claims Analysis -->
+{% if case_original %}
+<div class="row mb-4" style="height: 75vh;">
+    <!-- Left Column: Original Case Content -->
+    <div class="col-md-6 h-100">
+        <div class="card h-100">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-question-circle me-2"></i>
+                    Original Case Content
+                </h4>
+                <small class="text-muted">Question, physician answer, and AI response</small>
+            </div>
+            <div class="card-body overflow-auto">
+                <!-- Question -->
+                <div class="mb-4">
+                    <h5 class="text-primary">
+                        <i class="fas fa-question me-2"></i>Clinical Question
+                    </h5>
+                    <div class="p-3 bg-light rounded">
+                        <p class="mb-0">{{ case_original.question }}</p>
+                    </div>
+                </div>
+
+                <!-- Human Physician Answer -->
+                <div class="mb-4">
+                    <h5 class="text-success">
+                        <i class="fas fa-user-md me-2"></i>Physician Answer (Reference)
+                    </h5>
+                    <div class="p-3 bg-success-light rounded border-start border-success border-3">
+                        <p class="mb-0">{{ case_original.answer }}</p>
+                    </div>
+                </div>
+
+                <!-- AI Answer -->
+                <div class="mb-4">
+                    <h5 class="text-info">
+                        <i class="fas fa-robot me-2"></i>AI-Generated Answer
+                    </h5>
+                    <div class="p-3 bg-info-light rounded border-start border-info border-3">
+                        <p class="mb-0">{{ case_original.ai_answer }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Claims Analysis -->
+    <div class="col-md-6 h-100">
+        <div class="card h-100">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-list-alt me-2"></i>
+                    Atomic Claims Analysis
+                </h4>
+                <small class="text-muted">AI response broken down into individual verifiable claims</small>
+            </div>
+            <div class="card-body overflow-auto">
+                {% for claim in claims %}
+                <div class="claim-item p-3 mb-3 bg-white rounded shadow-sm {{ claim.verdict.lower().replace(' ', '-') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <span class="badge bg-secondary me-2">{{ claim.claim_id + 1 }}</span>
+                                <div class="flex-grow-1">
+                                    <p class="mb-2"><strong>{{ claim.claim }}</strong></p>
+                                    <div class="text-end mb-2">
+                                        {% if claim.verdict == 'Supported' %}
+                                            <span class="badge bg-success fs-6 p-2">
+                                                <i class="fas fa-check-circle me-1"></i>{{ claim.verdict }}
+                                            </span>
+                                        {% elif claim.verdict == 'Not Supported' %}
+                                            <span class="badge bg-danger fs-6 p-2">
+                                                <i class="fas fa-times-circle me-1"></i>{{ claim.verdict }}
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-warning fs-6 p-2">
+                                                <i class="fas fa-question-circle me-1"></i>{{ claim.verdict }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Verification Reasoning -->
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="alert alert-light mb-0">
+                                <strong><i class="fas fa-brain me-1"></i>AI Verification Reasoning:</strong>
+                                <p class="mb-0 mt-1">{{ claim.reason }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock %}
